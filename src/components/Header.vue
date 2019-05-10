@@ -7,7 +7,12 @@
       class="hidden-md-and-up"
     >
       <v-list>
-        <v-list-tile v-for="(item, i) in menuItems" :key="`navdrawer${i}`">
+        <v-list-tile
+          v-for="(item, i) in menuItems"
+          :key="`navdrawer${i}`"
+          style="cursor:pointer"
+          :to="item.route"
+        >
           <v-list-tile-action>
             <v-icon v-html="item.icon"></v-icon>
           </v-list-tile-action>

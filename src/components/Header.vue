@@ -49,6 +49,11 @@
 
 <script>
 export default {
+  data() {
+    return {
+      drawer: false
+    };
+  },
   computed: {
     isUserAuthenticated() {
       return this.$store.getters.isUserAuthenticated;
@@ -73,6 +78,11 @@ export default {
             }
           ]
         : [
+            {
+              icon: 'input',
+              title: 'Log In',
+              route: '/login'
+            },
             {
               icon: 'lock_open',
               title: 'Sign Up',

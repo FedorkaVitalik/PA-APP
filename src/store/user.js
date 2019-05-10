@@ -22,6 +22,25 @@ export default {
     }
   },
   actions: {
+    signup({ commit }, payload) {
+      commit("setProcessing", true);
+      commit("clearError");
+
+      axios
+        .post(config.apiUrl + "/signup", payload)
+        .then(Response => {
+          commit("setProcessing", false);
+
+          commit("setUser", Response.data.newUser._id);
+
+          axios.defaults.headers.common["x-access-token"] = Response.data.updUser.token;
+        })
+        .catch(err => {
+          commit("setProcessing", false);
+
+          commit("setError", err.message);
+        });
+    },
     login({ commit }, payload) {
       commit("setProcessing", true);
       commit("clearError");

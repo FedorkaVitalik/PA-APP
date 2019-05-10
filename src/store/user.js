@@ -1,6 +1,13 @@
 export default {
-  state: {},
+  state: {
+    user: {
+      isAuthenticated: false,
+      uId: null
+    }
+  },
   mutations: {},
   actions: {},
-  getters: {},
+  getters: {
+    isUserAuthenticated: state => state.user.isAuthenticated
+  }
 };

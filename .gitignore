@@ -19,3 +19,11 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw?
+
+### VisualStudioCode ###
+.vscode
+
+
+### VisualStudioCode Patch ###
+# Ignore all local history of files
+.history

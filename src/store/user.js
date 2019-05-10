@@ -58,9 +58,23 @@ export default {
 
           commit("setError", err.message);
         });
+    },
+    logout({ commit }, payload) {
+      axios
+        .delete(config.apiUrl + `/logout/${payload}`)
+        .then(() => {
+          commit("setProcessing", false);
+          commit("unsetUser");
+        })
+        .catch(err => {
+          commit("setProcessing", false);
+
+          commit("setError", err.message);
+        });
     }
   },
   getters: {
-    isUserAuthenticated: state => state.user.isAuthenticated
+    isUserAuthenticated: state => state.user.isAuthenticated,
+    uId: state => state.user.uId
   }
 };

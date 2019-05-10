@@ -63,13 +63,13 @@ export default {
         ? [
             {
               icon: 'visibility',
-              title: 'Read',
-              route: '/articles'
+              title: 'Main',
+              route: '/posts'
             },
             {
               icon: 'extension',
-              title: 'Learn',
-              route: '/learn'
+              title: 'example',
+              route: '/example'
             },
             {
               icon: 'account_circle',
@@ -89,6 +89,15 @@ export default {
               route: '/signup'
             }
           ];
+    }
+  },
+  methods: {
+    logout() {
+      this.$confirm('Do you really want to exit?').then(res => {
+        if (res) {
+          this.$store.dispatch('logout', this.$store.getters.uId);
+        }
+      });
     }
   }
 };

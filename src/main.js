@@ -7,6 +7,8 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 
+import { date } from "./utils/postDateHelp";
+
 Vue.use(Vuetify);
 
 Vue.use(VuetifyConfirm, {
@@ -16,6 +18,12 @@ Vue.use(VuetifyConfirm, {
 });
 
 Vue.config.productionTip = false;
+
+Vue.mixin({
+  methods: {
+    date
+  }
+});
 
 new Vue({
   router,

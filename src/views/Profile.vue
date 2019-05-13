@@ -12,7 +12,9 @@
           <v-tab-item :key="'posts'">
             <posts-list :posts="myPosts"></posts-list>
           </v-tab-item>
-          <v-tab-item :key="'followers'">My Followers</v-tab-item>
+          <v-tab-item :key="'followers'">
+            <my-followers-list :users="myFollowers"></my-followers-list>
+          </v-tab-item>
         </v-tabs>
       </v-flex>
     </v-layout>
@@ -22,6 +24,7 @@
 <script>
 import userProfileData from '../components/UserProfileData';
 import PostsList from '../components/PostsList';
+import MyFollowersList from '../components/UsersList';
 
 export default {
   data() {
@@ -35,23 +38,32 @@ export default {
     },
     isAuthenticated() {
       return this.$store.getters.isAuthenticated;
+    },
+    myFollowers() {
+      return this.$store.getters.getMyFollowers;
     }
   },
   created() {
     this.loadPosts();
+    this.loadUsers();
   },
   watch: {
-    $route: 'loadPosts'
+    $route: 'loadPosts',
+    $route: 'loadUsers'
   },
 
   methods: {
     loadPosts() {
       this.$store.dispatch('loadPosts');
+    },
+    loadUsers() {
+      this.$store.dispatch('loadUsers');
     }
   },
   components: {
     'user-profile-data': userProfileData,
-    'posts-list': PostsList
+    'posts-list': PostsList,
+    'my-followers-list': MyFollowersList
   }
 };
 </script>

@@ -53,8 +53,8 @@ export default {
             uId: Response.data.newUser._id
           });
 
-          axios.defaults.headers.common["x-access-token"] = Response.data.newUser.token;
-          localStorage.setItem("token", Response.data.newUser.token);
+          axios.defaults.headers.common["x-access-token"] = Response.data.token;
+          localStorage.setItem("token", Response.data.token);
         })
         .catch(err => {
           commit("setProcessing", false);

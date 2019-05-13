@@ -1,29 +1,44 @@
 # pa-app
 
-## Project setup
-```
-npm install
-```
+This is a web application (social network) on VueJS.
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+#Login
+![Login](README/login.png)
 
-### Compiles and minifies for production
-```
-npm run build
-```
+#SignUp
+![signup](README/signup.png)
+![signup1](README/signup1.png)
 
-### Run your tests
-```
-npm run test
-```
+#main
+![main](README/main.png)
+![main1](README/main1.png)
 
-### Lints and fixes files
-```
-npm run lint
-```
+#drawer
+![drawer](README/drawer.png)
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+#new post
+![write_a_post](README/write_a_post.png)
+
+#edit post
+![edit_post](README/edit_post.png)
+
+#people
+![people](README/people.png)
+
+#search
+![search](README/search.png)
+
+#follow
+![follow](README/follow.png)
+
+#change profile
+![change_profile](README/change_profile.png)
+
+#myPosts
+![myPosts](README/myPosts.png)
+
+#deletePost
+![deletePost](README/deletePost.png)
+
+#myFollowers
+![myFollowers](README/myFollowers.png)

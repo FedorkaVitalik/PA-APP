@@ -77,9 +77,9 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color flat @click="dialog = false">Disagree</v-btn>
+          <v-btn color flat @click="dialog = false">Cancel</v-btn>
           <v-btn color flat @click="editPost" :disabled="processing || !valid"
-            >Agree</v-btn
+            >Edit</v-btn
           >
         </v-card-actions>
       </v-card>

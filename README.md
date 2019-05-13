@@ -1,7 +1,5 @@
 # pa-app
 
-This is a web application (social network) on VueJS.
-
 #Login
 ![Login](README/login.png)
 

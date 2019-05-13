@@ -1,41 +1,54 @@
 # pa-app
+This is a web application (social network) on vueJS
 
-#Login
+Login
+
 ![Login](README/login.png)
 
-#SignUp
+SignUp
+
 ![signup](README/signup.png)
 ![signup1](README/signup1.png)
 
-#main
+main 
+
 ![main](README/main.png)
 ![main1](README/main1.png)
 
-#drawer
+drawer
+
 ![drawer](README/drawer.png)
 
-#new post
+new post
+
 ![write_a_post](README/write_a_post.png)
 
-#edit post
+edit post
+
 ![edit_post](README/edit_post.png)
 
-#people
+people
+
 ![people](README/people.png)
 
-#search
+search
+
 ![search](README/search.png)
 
-#follow
+follow
+
 ![follow](README/follow.png)
 
-#change profile
+change profile
+
 ![change_profile](README/change_profile.png)
 
-#myPosts
+myPosts
+
 ![myPosts](README/myPosts.png)
 
-#deletePost
+deletePost
+
 ![deletePost](README/deletePost.png)
 
 #myFollowers

@@ -20,6 +20,14 @@
             <v-list-tile-title v-text="item.title"> </v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
+        <v-list-tile flat @click.prevent="logout" v-if="isUserAuthenticated">
+          <v-list-tile-action>
+            <v-icon left>exit_to_app</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title v-text="'Log Out'"> </v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
       </v-list>
     </v-navigation-drawer>
     <v-toolbar relative color dark>
@@ -68,13 +76,13 @@ export default {
         ? [
             {
               icon: 'visibility',
-              title: 'Main',
+              title: 'News',
               route: '/posts'
             },
             {
               icon: 'extension',
               title: 'example',
-              route: '/example'
+              route: '/myPosts'
             },
             {
               icon: 'account_circle',
@@ -100,6 +108,8 @@ export default {
     logout() {
       this.$confirm('Do you really want to exit?').then(res => {
         if (res) {
+          this.$router.push('/login');
+
           this.$store.dispatch('logout', this.$store.getters.uId);
         }
       });

@@ -7,20 +7,31 @@ export default {
     user: {
       isAuthenticated: false,
       userData: {
-      uId: null
-    }
+        uId: null
+      }
     }
   },
   mutations: {
     setUser(state, payload) {
       state.user.isAuthenticated = true;
       state.user.userData = payload;
+
+      localStorage.setItem("user", JSON.stringify(payload));
+    },
+    renewUser(state) {
+      if (localStorage.getItem("user")) {
+        state.user.isAuthenticated = true;
+        state.user.userData = JSON.parse(localStorage.getItem("user"));
+      }
     },
     unsetUser(state) {
+      localStorage.removeItem("user");
+      localStorage.removeItem("token");
+
       state.user = {
         isAuthenticated: false,
         userData: {
-        uId: null
+          uId: null
         }
       };
     }
@@ -35,9 +46,15 @@ export default {
         .then(Response => {
           commit("setProcessing", false);
 
-          commit("setUser", Response.data.newUser._id);
+          commit("setUser", {
+            fname: Response.data.newUser.fname,
+            lname: Response.data.newUser.lname,
+            email: Response.data.newUser.email,
+            uId: Response.data.newUser._id
+          });
 
-          axios.defaults.headers.common["x-access-token"] = Response.data.updUser.token;
+          axios.defaults.headers.common["x-access-token"] = Response.data.newUser.token;
+          localStorage.setItem("token", Response.data.newUser.token);
         })
         .catch(err => {
           commit("setProcessing", false);
@@ -53,9 +70,15 @@ export default {
         .put(config.apiUrl + "/login", payload)
         .then(Response => {
           commit("setProcessing", false);
-          commit("setUser", Response.data.updUser._id);
+          commit("setUser", {
+            fname: Response.data.updUser.fname,
+            lname: Response.data.updUser.lname,
+            email: Response.data.updUser.email,
+            uId: Response.data.updUser._id
+          });
 
           axios.defaults.headers.common["x-access-token"] = Response.data.updUser.token;
+          localStorage.setItem("token", Response.data.updUser.token);
         })
         .catch(err => {
           commit("setProcessing", false);
@@ -63,13 +86,21 @@ export default {
           commit("setError", err.message);
         });
     },
+
+    renewUser({ commit }) {
+      if (localStorage.getItem("token")) {
+        axios.defaults.headers.common["x-access-token"] = localStorage.getItem("token");
+        commit("renewUser");
+      }
+    },
+
     logout({ commit }, payload) {
+      commit("setProcessing", false);
+      commit("unsetUser");
+
       axios
         .delete(config.apiUrl + `/logout/${payload}`)
-        .then(() => {
-          commit("setProcessing", false);
-          commit("unsetUser");
-        })
+        .then(() => {})
         .catch(err => {
           commit("setProcessing", false);
 

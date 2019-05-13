@@ -5,6 +5,7 @@ import Home from "./views/Home.vue";
 import Signup from "./views/Signup.vue";
 import Login from "./views/Login.vue";
 import Profile from "./views/Profile.vue";
+import Peoples from "./views/Peoples.vue";
 
 import store from "./store";
 
@@ -31,6 +32,12 @@ export const routes = [
     path: "/profile",
     name: "profile",
     component: Profile,
+    beforeEnter: AuthGuard
+  },
+  {
+    path: "/peoples",
+    name: "peoples",
+    component: Peoples,
     beforeEnter: AuthGuard
   }
 ];

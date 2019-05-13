@@ -81,8 +81,8 @@ export default {
             },
             {
               icon: 'extension',
-              title: 'example',
-              route: '/myPosts'
+              title: 'peoples',
+              route: '/peoples'
             },
             {
               icon: 'account_circle',

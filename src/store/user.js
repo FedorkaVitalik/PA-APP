@@ -6,18 +6,22 @@ export default {
   state: {
     user: {
       isAuthenticated: false,
+      userData: {
       uId: null
+    }
     }
   },
   mutations: {
     setUser(state, payload) {
       state.user.isAuthenticated = true;
-      state.user.uId = payload;
+      state.user.userData = payload;
     },
     unsetUser(state) {
       state.user = {
         isAuthenticated: false,
+        userData: {
         uId: null
+        }
       };
     }
   },
@@ -71,10 +75,31 @@ export default {
 
           commit("setError", err.message);
         });
+    },
+    editUserData({ commit }, payload) {
+      return new Promise((resolve, reject) => {
+        axios.put(config.apiUrl + "/profile/" + payload.uId, payload.newData).then(
+          Response => {
+            console.log(Response);
+            commit("setProcessing", false);
+            commit("setUser", {
+              fname: Response.data.fname,
+              lname: Response.data.lname,
+              email: Response.data.email,
+              uId: Response.data._id
+            });
+            resolve(Response);
+          },
+          error => {
+            reject(error);
+          }
+        );
+      });
     }
   },
   getters: {
     isUserAuthenticated: state => state.user.isAuthenticated,
-    uId: state => state.user.uId
+    userData: state => state.user.userData,
+    uId: state => state.user.userData.uId
   }
 };

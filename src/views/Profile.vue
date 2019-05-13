@@ -38,8 +38,6 @@ export default {
     }
   },
   created() {
-    console.log(this.myPosts);
-
     this.loadPosts();
   },
   watch: {

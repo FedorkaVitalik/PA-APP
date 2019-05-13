@@ -35,7 +35,7 @@
           <v-icon
             class="mr-1"
             style="cursor: pointer;"
-            color="white"
+            :color="colorLike"
             @click="like"
             >favorite</v-icon
           >
@@ -66,12 +66,12 @@
           <v-text-field
             class="headline"
             label="Title"
-            v-model="post.title"
+            v-model="editableTitle"
             :rules="titleRules"
           ></v-text-field>
           <v-text-field
             label="Text"
-            v-model="post.body"
+            v-model="editableBody"
             :rules="bodyRules"
           ></v-text-field>
         </v-card-text>
@@ -88,6 +88,8 @@
 </template>
 
 <script>
+import constants from '../constants/constants.js';
+
 export default {
   props: {
     post: {
@@ -99,11 +101,25 @@ export default {
     return {
       dialog: false,
       valid: false,
-      title: null,
-      body: null,
+      editableTitle: null,
+      editableBody: null,
       bodyRules: [v => !!v || 'Please write a text'],
-      titleRules: [v => !!v || 'Please write a title']
+      titleRules: [v => !!v || 'Please write a title'],
+      colorLike: null
     };
+  },
+  watch: {
+    dialog(val) {
+      if (val === true) {
+        this.editableTitle = this.post.title;
+        this.editableBody = this.post.body;
+      }
+    }
+  },
+  mounted() {
+    if (this.post) {
+      this.checkLikesCount();
+    }
   },
   computed: {
     userData() {
@@ -114,22 +130,51 @@ export default {
     }
   },
   methods: {
-    like() {
-      this.$store.dispatch('likePost', this.post._id);
+    checkLikesCount() {
+      this.colorLike =
+        this.post.countOfLikes.length === 0
+          ? constants.notLikePost
+          : this.post.countOfLikes.includes(this.userData.uId)
+          ? constants.likedPost
+          : constants.notLikePostByMe;
     },
-    editPost() {
+    async like() {
+      if (!this.post.countOfLikes.includes(this.userData.uId)) {
+        this.post.countOfLikes.length++;
+        this.colorLike = constants.likedPost;
+
+        await this.$store.dispatch('likePost', this.post._id);
+      } else if (this.post.countOfLikes.includes(this.userData.uId)) {
+        this.post.countOfLikes.length--;
+
+        this.colorLike =
+          !this.post.countOfLikes.length > 0
+            ? constants.notLikePost
+            : constants.notLikePostByMe;
+
+        await this.$store.dispatch('unlikePost', this.post._id);
+      }
+      this.$store.dispatch('loadPosts');
+    },
+    async editPost() {
       let postData = {
-        title: this.title !== null ? this.title : this.post.title,
-        body: this.body !== null ? this.body : this.post.body,
+        title: this.editableTitle,
+        body: this.editableBody,
         createdBy: this.userData.uId,
-        date: Date.now()
+        date: Date.now(),
+        countOfLikes: this.post.countOfLikes
       };
 
-      this.$store.dispatch('editPost', {
+      this.post.title = this.editableTitle;
+      this.post.body = this.editableBody;
+
+      this.dialog = false;
+
+      await this.$store.dispatch('editPost', {
         postId: this.post._id,
         postData
       });
-      this.dialog = false;
+      this.$store.dispatch('loadPosts');
     },
     deletePost() {
       this.$confirm('Do you really want to delete post?').then(res => {

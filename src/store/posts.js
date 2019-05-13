@@ -12,9 +12,7 @@ export default {
     },
 
     addPost(state, payload) {
-      console.log(state.posts);
       state.posts.push(payload);
-      console.log(state.posts);
     },
     editPost(state, payload) {
       const foundPost = state.posts.findIndex(post => post._id === payload.postId);
@@ -70,12 +68,29 @@ export default {
         );
       });
     },
-    likePost({ commit }, payload) {
+    async likePost({ commit }, payload) {
       commit("setProcessing", true);
       commit("clearError");
 
-      axios
+      await axios
         .patch(config.apiUrl + "/posts/likePost/" + payload)
+        .then(Response => {
+          console.log(Response);
+          commit("setProcessing", false);
+        })
+        .catch(error => {
+          console.log(error);
+          commit("setProcessing", false);
+
+          commit("setError", error.message);
+        });
+    },
+    async unlikePost({ commit }, payload) {
+      commit("setProcessing", true);
+      commit("clearError");
+
+      await axios
+        .patch(config.apiUrl + "/posts/unlikePost/" + payload)
         .then(Response => {
           console.log(Response);
           commit("setProcessing", false);
@@ -105,15 +120,16 @@ export default {
           commit("setError", error.message);
         });
     },
-    editPost({ commit }, payload) {
+    async editPost({ commit }, payload) {
       commit("setProcessing", true);
       commit("clearError");
 
-      axios
+      commit("editPost", payload);
+      await axios
         .put(config.apiUrl + "/posts/" + payload.postId, payload.postData)
         .then(Response => {
           console.log(Response);
-          commit("editPost", payload);
+
           commit("setProcessing", false);
         })
         .catch(error => {
@@ -127,11 +143,11 @@ export default {
       commit("setProcessing", true);
       commit("clearError");
 
+      commit("deletePost", payload);
       axios
         .delete(config.apiUrl + "/posts/" + payload)
         .then(Response => {
           console.log(Response);
-          commit("deletePost", payload);
           commit("setProcessing", false);
         })
         .catch(error => {
